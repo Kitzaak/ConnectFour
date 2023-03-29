@@ -59,6 +59,13 @@ namespace Game
         return true;
       }
 
+      who = LookForDiagonalWin();
+      if(who > 0)
+      {
+        _whoWon = who;
+        return true;
+      }
+
       return false;
     }
 
@@ -75,12 +82,11 @@ namespace Game
       {
         one = 0;
         two = 0;
-        Console.WriteLine("Reset");
+
         for (int row = 0; row < 6; row++)
         {
           if (_pieces[row, column] == 1)
           {
-            Console.WriteLine($"row:{row}, col:{column}");
             one++;
             two = 0;
             if(one == 4)
@@ -111,12 +117,11 @@ namespace Game
       {
         one = 0;
         two = 0;
-        Console.WriteLine("Reset");
+
         for (int column = 0; column < 7; column++)
         {
           if (_pieces[row, column] == 1)
           {
-            Console.WriteLine($"row:{row}, col:{column}");
             one++;
             two = 0;
             if(one == 4)
@@ -136,6 +141,32 @@ namespace Game
           }
         }
       }
+      return 0;
+    }
+
+    int LookForDiagonalWin()
+    {
+      for (int column = 0; column < 7; column++)
+      {
+        for (int row = 0; row < 6; row++)
+        {
+          // diagonal down
+          if(column + 3 < 7 && row + 3 < 6)
+            if(_pieces[row, column] != 0 &&
+                 _pieces[row, column] == _pieces[row + 1, column + 1] &&
+                 _pieces[row, column] == _pieces[row + 2, column + 2] &&
+                 _pieces[row, column] == _pieces[row + 3, column + 3])
+               return _pieces[row, column];
+          // diagonal up
+          if(column + 3 < 7 && row - 3 > -1)
+            if(_pieces[row, column] != 0 &&
+                 _pieces[row, column] == _pieces[row - 1, column + 1] &&
+                 _pieces[row, column] == _pieces[row - 2, column + 2] &&
+                 _pieces[row, column] == _pieces[row - 3, column + 3])
+               return _pieces[row, column];
+        }
+      }
+
       return 0;
     }
   }
