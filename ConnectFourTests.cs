@@ -108,6 +108,53 @@ namespace Game
       Assert.Throws<Exception>(() => game.PlacePiece(1, 4));
     }
 
+    [Fact]
+    void new_game_is_not_won()
+    {
+      var game = new ConnectFour();
+
+      Assert.False(game.Won());
+      Assert.Equal(0, game.WhoWon());
+    }
+
+    [Fact]
+    void can_win_game_vitically()
+    {
+      var game = new ConnectFour();
+
+      int[,] pieces = new int[,] {
+        {0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0},
+        {0,0,0,0,1,0,0},
+        {0,0,0,0,1,0,0},
+        {0,2,0,0,1,0,0},
+        {2,2,0,0,1,0,0}
+      };
+      game.SetAllPieces(pieces);
+
+      Assert.True(game.Won());
+      Assert.Equal(1, game.WhoWon());
+    }
+
+    [Fact]
+    void can_win_game_horizontally()
+    {
+      var game = new ConnectFour();
+
+      int[,] pieces = new int[,] {
+        {0,0,0,0,0,0,0},
+        {0,0,0,0,1,0,0},
+        {0,0,0,0,1,0,0},
+        {0,1,0,0,1,1,0},
+        {0,2,1,2,2,2,2},
+        {2,2,2,1,1,0,0}
+      };
+      game.SetAllPieces(pieces);
+
+      Assert.True(game.Won());
+      Assert.Equal(2, game.WhoWon());
+    }
+
     void ConsoleDisplayPieces(int[,] pieces)
     {
       var board = new Board();
