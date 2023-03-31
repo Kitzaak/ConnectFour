@@ -2,17 +2,20 @@ namespace Game
 {
   public class Board
   {
+    int _lastColumn = -1;
+    int _lastRow = -1;
+
     public string EmptyBoard()
     {
       var screen = "";
       screen += SpecialRow("numbers") + "\n";
       screen += SpecialRow("top") + "\n";
-      screen += EmptyPieceRow() + "\n";
-      screen += EmptyPieceRow() + "\n";
-      screen += EmptyPieceRow() + "\n";
-      screen += EmptyPieceRow() + "\n";
-      screen += EmptyPieceRow() + "\n";
-      screen += EmptyPieceRow() + "\n";
+      screen += EmptyPieceRow(0) + "\n";
+      screen += EmptyPieceRow(1) + "\n";
+      screen += EmptyPieceRow(2) + "\n";
+      screen += EmptyPieceRow(3) + "\n";
+      screen += EmptyPieceRow(4) + "\n";
+      screen += EmptyPieceRow(5) + "\n";
       screen += SpecialRow("bottom") + "\n";
 
       return screen;
@@ -26,38 +29,48 @@ namespace Game
       return "";
     }
 
-    public string PieceRow(int[] rowPieces)
+    public string PieceRow(int[] rowPieces, int row)
     {
       if(rowPieces.Length != 7) return "| . | . | . | . | . | . | . |";
-      else return $"| {Piece(rowPieces[0])} | {Piece(rowPieces[1])} | {Piece(rowPieces[2])} | {Piece(rowPieces[3])} | {Piece(rowPieces[4])} | {Piece(rowPieces[5])} | {Piece(rowPieces[6])} |";
+      else return $"|{Piece(rowPieces[0], row, 0)}|{Piece(rowPieces[1], row, 1)}|{Piece(rowPieces[2], row, 2)}|{Piece(rowPieces[3], row, 3)}|{Piece(rowPieces[4], row, 4)}|{Piece(rowPieces[5], row, 5)}|{Piece(rowPieces[6], row, 6)}|";
     }
 
-    public string EmptyPieceRow()
+    public string EmptyPieceRow(int row)
     {
-      return PieceRow(new int[] {0,0,0,0,0,0,0});
+      return PieceRow(new int[] {0,0,0,0,0,0,0}, row);
     }
 
-    public string Piece(int code)
+    string Piece(int code, int row, int col)
     {
-      if(code == 1) return "X";
-      if(code == 2) return "O";
-      return ".";
+      var filler = " ";
+      if(row == _lastRow && col == _lastColumn) 
+        filler = "-";
+      if(code == 1) return $"{filler}X{filler}";
+      if(code == 2) return $"{filler}O{filler}";
+      return " . ";
+    }
+
+    public string PieceBoard(int[,] pieces, int lastRow, int lastColumn)
+    {
+      _lastColumn = lastColumn;
+      _lastRow = lastRow;
+      var screen = "";
+      screen += SpecialRow("numbers") + "\n";
+      screen += SpecialRow("top") + "\n";
+      screen += PieceRow(pieces.GetRow(0), 0) + "\n";
+      screen += PieceRow(pieces.GetRow(1), 1) + "\n";
+      screen += PieceRow(pieces.GetRow(2), 2) + "\n";
+      screen += PieceRow(pieces.GetRow(3), 3) + "\n";
+      screen += PieceRow(pieces.GetRow(4), 4) + "\n";
+      screen += PieceRow(pieces.GetRow(5), 5) + "\n";
+      screen += SpecialRow("bottom") + "\n";
+
+      return screen;
     }
 
     public string PieceBoard(int[,] pieces)
     {
-      var screen = "";
-      screen += SpecialRow("numbers") + "\n";
-      screen += SpecialRow("top") + "\n";
-      screen += PieceRow(pieces.GetRow(0)) + "\n";
-      screen += PieceRow(pieces.GetRow(1)) + "\n";
-      screen += PieceRow(pieces.GetRow(2)) + "\n";
-      screen += PieceRow(pieces.GetRow(3)) + "\n";
-      screen += PieceRow(pieces.GetRow(4)) + "\n";
-      screen += PieceRow(pieces.GetRow(5)) + "\n";
-      screen += SpecialRow("bottom") + "\n";
-
-      return screen;
+      return PieceBoard(pieces, -1, -1);
     }
   }
 }

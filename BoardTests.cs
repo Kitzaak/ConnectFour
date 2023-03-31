@@ -12,12 +12,12 @@ namespace Game
       var screen = "";
       screen += board.SpecialRow("numbers") + "\n";
       screen += board.SpecialRow("top") + "\n";
-      screen += board.EmptyPieceRow() + "\n";
-      screen += board.EmptyPieceRow() + "\n";
-      screen += board.EmptyPieceRow() + "\n";
-      screen += board.EmptyPieceRow() + "\n";
-      screen += board.EmptyPieceRow() + "\n";
-      screen += board.EmptyPieceRow() + "\n";
+      screen += board.EmptyPieceRow(0) + "\n";
+      screen += board.EmptyPieceRow(1) + "\n";
+      screen += board.EmptyPieceRow(2) + "\n";
+      screen += board.EmptyPieceRow(3) + "\n";
+      screen += board.EmptyPieceRow(4) + "\n";
+      screen += board.EmptyPieceRow(5) + "\n";
       screen += board.SpecialRow("bottom") + "\n";
       
       Assert.Equal(
@@ -67,7 +67,7 @@ namespace Game
     {
       var board = new Board();
 
-      var row = board.EmptyPieceRow();
+      var row = board.EmptyPieceRow(0);
 
       Assert.Equal("| . | . | . | . | . | . | . |", row);
     }
@@ -78,7 +78,7 @@ namespace Game
       var board = new Board();
 
       int[] pieces = new int[] {1,0,0,0,0,0,0};
-      var row = board.PieceRow(pieces);
+      var row = board.PieceRow(pieces, 0);
 
       Assert.Equal("| X | . | . | . | . | . | . |", row);
     }
@@ -89,7 +89,7 @@ namespace Game
       var board = new Board();
 
       int[] pieces = new int[] {1,0,2,1,0,2,0};
-      var row = board.PieceRow(pieces);   
+      var row = board.PieceRow(pieces, 0);   
 
       Assert.Equal("| X | . | O | X | . | O | . |", row);
     }
@@ -146,6 +146,36 @@ namespace Game
       };
       
       Assert.Equal(expectedScreen, board.PieceBoard(pieces));
+    }
+    
+    [Fact]
+    void board_marks_last_piece()
+    {
+      var board = new Board();
+
+      string expectedScreen = "  1   2   3   4   5   6   7\n" +
+        "-----------------------------\n" +
+        "| . | . | . | . | . | . | . |\n" +
+        "| . | . | . | . | . | . | . |\n" +
+        "| . | . | . | . | . | . | . |\n" +
+        "| . | . | . | . |-X-| . | . |\n" +
+        "| . | . | . | O | O | X | . |\n" +
+        "| X | O | X | O | X | O | X |\n" +
+        "=============================\n";
+
+      int[,] pieces = new int[,] {
+        {0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0},
+        {0,0,0,0,1,0,0},
+        {0,0,0,2,2,1,0},
+        {1,2,1,2,1,2,1}
+      };
+
+      int row = 3;
+      int col = 4;
+      
+      Assert.Equal(expectedScreen, board.PieceBoard(pieces, row, col));
     }
   }
 }

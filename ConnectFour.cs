@@ -13,14 +13,18 @@ namespace Game
       {0,0,0,0,0,0,0}
     };
 
+    int _nextPlayerMove = 1;
     int _whoWon = 0;
+    bool _gameOver = false;
+    int _columnOfLastPiece = -1;
+    int _rowOfLastPiece = -1;
 
     public int[,] Pieces()
     {
       return _pieces;
     }
 
-    public void PlacePiece(int player, int column)
+    public void PlacePiece(int column)
     {
       bool piecePlaced = false;
       
@@ -28,14 +32,19 @@ namespace Game
       {
         if (_pieces.GetRow(i)[column] == 0)
         {
-          _pieces[i, column] = player;
+          _pieces[i, column] = _nextPlayerMove;
+          _columnOfLastPiece = column;
+          _rowOfLastPiece = i;
           piecePlaced = true;
-          i = -1;
+          _nextPlayerMove = (_nextPlayerMove == 1) ? 2 : 1;
+          break;
         }
       }
 
       if(!piecePlaced)
         throw new Exception("Column full");
+
+      IsWin();
     }
 
     public void SetAllPieces(int[,] pieces)
@@ -43,12 +52,13 @@ namespace Game
       _pieces = pieces;
     }
 
-    public bool Won()
+    public bool IsWin()
     {
       var who = LookForVirticalWin();
       if(who > 0)
       {
         _whoWon = who;
+        _gameOver = true;
         return true;
       }
 
@@ -56,6 +66,7 @@ namespace Game
       if(who > 0)
       {
         _whoWon = who;
+        _gameOver = true;
         return true;
       }
 
@@ -63,15 +74,46 @@ namespace Game
       if(who > 0)
       {
         _whoWon = who;
+        _gameOver = true;
         return true;
       }
+
+      _gameOver = IsCatsGame();
 
       return false;
     }
 
+    public bool IsOver()
+    {
+      return _gameOver;
+    }
+    
     public int WhoWon()
     {
       return _whoWon;
+    }
+
+    public int LastColumn()
+    {
+      return _columnOfLastPiece;
+    }
+
+    public int LastRow()
+    {
+      return _rowOfLastPiece;
+    }
+
+    bool IsCatsGame()
+    {
+      for (int column = 0; column < 7; column++)
+      {
+        for (int row = 0; row < 6; row++)
+        {
+          if(_pieces[row, column] == 0)
+            return false;
+        }
+      }
+      return true;
     }
 
     int LookForVirticalWin()
