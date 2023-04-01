@@ -13,6 +13,13 @@ namespace Game
       {0,0,0,0,0,0,0}
     };
 
+    int[,] _winline = new int[,] {
+      {-1,-1},
+      {-1,-1},
+      {-1,-1},
+      {-1,-1}
+    };
+
     int _nextPlayerMove = 1;
     int _whoWon = 0;
     bool _gameOver = false;
@@ -132,14 +139,30 @@ namespace Game
             one++;
             two = 0;
             if(one == 4)
+            {
+              _winline = new int[,] {
+                {row-3,column},
+                {row-2,column},
+                {row-1,column},
+                {row,column}
+              };             
               return 1;
+            }
           }
           else if (_pieces[row, column] == 2)
           {
             two++;
             one = 0;
-            if(two == 4)
+            if(one == 4)
+            {
+              _winline = new int[,] {
+                {row-3,column},
+                {row-2,column},
+                {row-1,column},
+                {row,column}
+              };             
               return 2;
+            }
           }
           else
           {
@@ -167,14 +190,30 @@ namespace Game
             one++;
             two = 0;
             if(one == 4)
+            {
+              _winline = new int[,] {
+                {row,column-3},
+                {row,column-2},
+                {row,column-1},
+                {row,column}
+              };             
               return 1;
+            }
           }
           else if (_pieces[row, column] == 2)
           {
             two++;
             one = 0;
             if(two == 4)
+            {
+              _winline = new int[,] {
+                {row,column-3},
+                {row,column-2},
+                {row,column-1},
+                {row,column}
+              };             
               return 2;
+            }
           }
           else
           {
@@ -198,18 +237,39 @@ namespace Game
                  _pieces[row, column] == _pieces[row + 1, column + 1] &&
                  _pieces[row, column] == _pieces[row + 2, column + 2] &&
                  _pieces[row, column] == _pieces[row + 3, column + 3])
-               return _pieces[row, column];
+            {
+              _winline = new int[,] {
+                {row,column},
+                {row+1,column+1},
+                {row+2,column+2},
+                {row+3,column+3}
+              };
+              return _pieces[row, column];
+            }
           // diagonal up
           if(column + 3 < 7 && row - 3 > -1)
             if(_pieces[row, column] != 0 &&
                  _pieces[row, column] == _pieces[row - 1, column + 1] &&
                  _pieces[row, column] == _pieces[row - 2, column + 2] &&
                  _pieces[row, column] == _pieces[row - 3, column + 3])
-               return _pieces[row, column];
+            {
+              _winline = new int[,] {
+                {row,column},
+                {row-1,column+1},
+                {row-2,column+2},
+                {row-3,column+3}
+              };
+              return _pieces[row, column];
+            }
         }
       }
 
       return 0;
+    }
+
+    public int[,] WinLine()
+    {
+      return _winline;
     }
   }
 }

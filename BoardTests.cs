@@ -177,5 +177,39 @@ namespace Game
       
       Assert.Equal(expectedScreen, board.PieceBoard(pieces, row, col));
     }
+
+    [Fact]
+    void board_marks_win_line()
+    {
+      var board = new Board();
+
+      string expectedScreen = "  1   2   3   4   5   6   7\n" +
+        "-----------------------------\n" +
+        "| . | . | . | . | . | . | . |\n" +
+        "| . | . | . | . | . | . | . |\n" +
+        "| . | . | . |-X-| . | . | . |\n" +
+        "| . | . | . | O |-X-| . | . |\n" +
+        "| . | . | . | O | O |-X-| . |\n" +
+        "| X | O | X | O | X | O |-X-|\n" +
+        "=============================\n";
+
+      int[,] pieces = new int[,] {
+        {0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0},
+        {0,0,0,1,0,0,0},
+        {0,0,0,2,1,0,0},
+        {0,0,0,2,2,1,0},
+        {1,2,1,2,1,2,1}
+      };
+
+      int[,] winline = new int[,] {
+        {2,3},
+        {3,4},
+        {4,5},
+        {5,6}
+      };
+      
+      Assert.Equal(expectedScreen, board.PieceBoard(pieces, winline));
+    }
   }
 }

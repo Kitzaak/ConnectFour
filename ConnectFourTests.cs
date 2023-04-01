@@ -41,6 +41,25 @@ namespace Game
     }
 
     [Fact]
+    void new_game_is_not_won()
+    {
+      var game = new ConnectFour();
+      int[,] winline = new int[,] {
+        {-1,-1},
+        {-1,-1},
+        {-1,-1},
+        {-1,-1}
+      };
+
+      Assert.False(game.IsWin());
+      Assert.Equal(0, game.WhoWon());
+      Assert.False(game.IsOver());
+      Assert.Equal(-1, game.LastColumn());
+      Assert.Equal(-1, game.LastRow());
+      Assert.Equal(winline, game.WinLine());
+    }
+
+    [Fact]
     void can_place_first_piece()
     {
       var game = new ConnectFour();
@@ -153,18 +172,6 @@ namespace Game
     }
 
     [Fact]
-    void new_game_is_not_won()
-    {
-      var game = new ConnectFour();
-
-      Assert.False(game.IsWin());
-      Assert.Equal(0, game.WhoWon());
-      Assert.False(game.IsOver());
-      Assert.Equal(-1, game.LastColumn());
-      Assert.Equal(-1, game.LastRow());
-    }
-
-    [Fact]
     void can_win_game_vitically()
     {
       var game = new ConnectFour();
@@ -177,11 +184,19 @@ namespace Game
         {0,0,0,0,1,0,0},
         {0,0,0,0,1,0,0}
       };
+      int[,] winline = new int[,] {
+        {2,4},
+        {3,4},
+        {4,4},
+        {5,4}
+      };
+
       game.SetAllPieces(pieces);
 
       Assert.True(game.IsWin());
       Assert.Equal(1, game.WhoWon());
       Assert.True(game.IsOver());
+      Assert.Equal(winline, game.WinLine());
     }
 
     [Fact]
@@ -197,11 +212,19 @@ namespace Game
         {0,0,0,0,0,0,0},
         {0,2,2,2,2,0,0}
       };
+      int[,] winline = new int[,] {
+        {5,1},
+        {5,2},
+        {5,3},
+        {5,4}
+      };
+
       game.SetAllPieces(pieces);
 
       Assert.True(game.IsWin());
       Assert.Equal(2, game.WhoWon());
       Assert.True(game.IsOver());
+      Assert.Equal(winline, game.WinLine());
     }
 
     [Fact]
@@ -217,11 +240,19 @@ namespace Game
         {0,0,0,0,0,0,1},
         {0,0,0,0,0,0,0}
       };
+      int[,] winline = new int[,] {
+        {1,3},
+        {2,4},
+        {3,5},
+        {4,6}
+      };
+
       game.SetAllPieces(pieces);
 
       Assert.True(game.IsWin());
       Assert.Equal(1, game.WhoWon());
       Assert.True(game.IsOver());
+      Assert.Equal(winline, game.WinLine());
     }
 
     [Fact]
@@ -237,11 +268,19 @@ namespace Game
         {0,0,0,2,0,0,0},
         {0,0,2,0,0,0,0}
       };
+      int[,] winline = new int[,] {
+        {5,2},
+        {4,3},
+        {3,4},
+        {2,5}
+      };
+
       game.SetAllPieces(pieces);
 
       Assert.True(game.IsWin());
       Assert.Equal(2, game.WhoWon());
       Assert.True(game.IsOver());
+      Assert.Equal(winline, game.WinLine());
     }
 
     void ConsoleDisplayPieces(int[,] pieces)
