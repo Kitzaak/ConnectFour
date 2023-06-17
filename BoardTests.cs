@@ -211,5 +211,14 @@ namespace Game
       
       Assert.Equal(expectedScreen, board.PieceBoard(pieces, winline));
     }
+
+    [Fact]
+    void can_ask_for_piece_display()
+    {
+      var board = new Board();
+
+      Assert.Equal("X", board.PlayerPiece(1));
+      Assert.Equal("O", board.PlayerPiece(2));
+    }
   }
 }

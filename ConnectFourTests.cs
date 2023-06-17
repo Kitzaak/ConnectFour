@@ -2,7 +2,6 @@ using Xunit;
 using Xunit.Abstractions;
 using System;
 using System.Linq;
-using System.Diagnostics;
 
 namespace Game
 {
@@ -76,11 +75,6 @@ namespace Game
       game.PlacePiece(0);
       var currentPieces = game.Pieces();
 
-      // Output.WriteLine("Expected:");
-      // ConsoleDisplayPieces(pieces);
-      // Output.WriteLine("Actual:");
-      // ConsoleDisplayPieces(currentPieces);
-
       Assert.True(ArraysEqual(pieces, currentPieces));
       Assert.Equal(0, game.LastColumn());
       Assert.Equal(5, game.LastRow());
@@ -110,11 +104,6 @@ namespace Game
       game.PlacePiece(4);
       var currentPieces = game.Pieces();
 
-      // Output.WriteLine("Expected:");
-      // ConsoleDisplayPieces(pieces);
-      // Output.WriteLine("Actual:");
-      // ConsoleDisplayPieces(currentPieces);
-
       Assert.True(ArraysEqual(pieces, currentPieces));
       Assert.Equal(4, game.LastColumn());
       Assert.Equal(2, game.LastRow());
@@ -135,12 +124,6 @@ namespace Game
       };
 
       game.SetAllPieces(pieces);
-      //var currentPieces = game.Pieces();
-
-      // Output.WriteLine("Expected:");
-      // ConsoleDisplayPieces(pieces);
-      // Output.WriteLine("Actual:");
-      // ConsoleDisplayPieces(currentPieces);
 
       Assert.False(game.IsWin());
       Assert.Equal(0, game.WhoWon());
@@ -164,9 +147,6 @@ namespace Game
       game.SetAllPieces(pieces);
       
       var currentPieces = game.Pieces();
-
-      //ConsoleDisplayPieces(pieces);
-      //ConsoleDisplayPieces(currentPieces);
       
       Assert.Throws<Exception>(() => game.PlacePiece(4));
     }

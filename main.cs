@@ -12,12 +12,22 @@ namespace Game
       while (!game.IsOver())
       {
         Console.Write(board.PieceBoard(game.Pieces(), game.LastRow(), game.LastColumn()));
-        Console.Write("Enter column for next piece: ");
-        var input = Console.ReadLine();
-        var col = int.Parse(input);
-        game.PlacePiece(col - 1);
+        Console.Write($"Enter column for next piece: ");
+
+        var message = "";
+        try
+        {
+          var input = Console.ReadLine();
+          var col = int.Parse(input);
+          game.PlacePiece(col - 1);
+        }
+        catch(Exception ex)
+        {
+          message = ex.Message;
+        }
+
         Console.Clear();
-        Console.WriteLine("");
+        Console.WriteLine(message);
         Console.WriteLine("");
       }
       Console.Write(board.PieceBoard(game.Pieces(), game.WinLine()));

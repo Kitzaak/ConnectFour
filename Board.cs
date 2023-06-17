@@ -106,5 +106,12 @@ namespace Game
     {
       return PieceBoard(pieces, -1, -1, winline);
     }
+
+    public string PlayerPiece(int playerId)
+    {
+      if (playerId == 1) return "X";
+      else if (playerId == 2) return "O";
+      else return "";
+    }
   }
 }
